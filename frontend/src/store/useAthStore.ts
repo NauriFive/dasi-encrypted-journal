@@ -54,4 +54,5 @@ interface AuthStore {
     isCheckingAuth: boolean
     checkAuth: () => Promise<void>
     signup: (data: any) => Promise<void>
+    logout: () => void
 }
