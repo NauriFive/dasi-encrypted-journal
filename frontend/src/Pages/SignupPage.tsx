@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuthStore } from '../store/useAthStore'
-import { MessageSquare, AtSign, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { AtSign, Mail, Lock, Eye, EyeOff, Loader2, Rabbit } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
@@ -50,13 +50,13 @@ const SignupPage = () => {
             <div className="flex flex-col justify-center items-center p-6 sm:p-12">
                 <div className="w-full max-w-md space-y-5">
                     {/* Ⓜ️ Logo */}
-                    <div className="text-center mb-3">
+                    <div className="text-center mb-5">
                         <div className="flex flex-col items-center gap-2 group">
                             <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <MessageSquare className="size-6 text-primary" />
+                                <Rabbit className="size-8 text-primary stroke-1" />
                             </div>
-                            <h1 className="text-2xl font-bold mt-2">Create Account</h1>
-                            <p className="text-base-content/60">Get started with your free account</p>
+                            <h1 className="text-2xl font-bold mt-2">Join us</h1>
+                            <p className="text-base-content/60">Join us in the fight against distraction!</p>
                         </div>
                     </div>
 
@@ -65,7 +65,7 @@ const SignupPage = () => {
                         {/* 🫠 Username */}
                         <div className="form-control mb-5">
                             <label className="label mb-1">
-                                <span className="label-text font-medium">Username</span>
+                                <span className="label-text">Username</span>
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -86,7 +86,7 @@ const SignupPage = () => {
                         {/* ✉️ Email */}
                         <div className="form-control mb-5">
                             <label className="label mb-1">
-                                <span className="label-text font-medium">Email</span>
+                                <span className="label-text">Email</span>
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center z-10">
@@ -105,7 +105,7 @@ const SignupPage = () => {
                         {/* 🔐 Password */}
                         <div className="form-control mb-5">
                             <label className="label mb-1">
-                                <span className="label-text font-medium">Password</span>
+                                <span className="label-text">Password</span>
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center z-10">
