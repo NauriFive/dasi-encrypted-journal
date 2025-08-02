@@ -82,7 +82,12 @@ export const login = async (req: Request, res: Response) => {
 export const logout = (req: Request, res: Response) => {
     try {
         // ✏️ Replaces the current JWT with a blank one - essentially terminating it. Sets max age to 0.
-        res.cookie('jwt', '', { maxAge: 0 })
+        res.cookie('jwt', '', { 
+            maxAge: 0,
+            httpOnly: true,
+            sameSite: 'strict',
+            secure: process.env.NODE_ENV !== 'development', 
+        })
         res.status(200).json({ message: '✔️ Logged out successfully' })
     } catch (error) {
         console.log('💢 Error in Logout controller.')
