@@ -8,18 +8,22 @@ export const signup = async (req: Request, res: Response) => {
     try {
         const { username, email, password } = req.body
         if (!username || !email || !password) {
-            res.status(400).json({ message: '❌ Missing required fields.' })
+            res.status(400).json({ message: 'Missing required fields.' })
             return
         }
         if (password.length < 8) {
-            res.status(400).json({ message: '❌ Password must be at least 8 characters.' })
-            return // 📝 This 'return' is needed to maintain the TS ResponseHandler's return-type contract; Inline 'return' would break the contract
+            res.status(400).json({ message: 'Password must be at least 8 characters.' })
+            return
         }
 
         const user = await User.findOne({ email })
 
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            res.status(400).json({message: 'Invalid email.'})
+            return false
+        }
         if (user) {
-            res.status(400).json({ message: '❌ Email already exists.' })
+            res.status(400).json({ message: 'Email already exists.' })
             return
         }
 
@@ -29,7 +33,7 @@ export const signup = async (req: Request, res: Response) => {
         const newUser = new User({
             username: username,
             email: email,
-            password: hashedPassword, 
+            password: hashedPassword,
         })
 
         if (newUser) {
@@ -52,13 +56,13 @@ export const signup = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     try {
-        const { username, password } = req.body
+        const { email: email, password: password } = req.body
 
-        const user = await User.findOne({ username })
+        const user = await User.findOne({ email: email })
         const isValidPassword = await bcrypt.compare(password, user?.password || '')
 
         if (!user || !isValidPassword) {
-            res.status(400).json({ message: 'Incorrect username or password.' })
+            res.status(400).json({ message: 'Incorrect email or password.' })
             return
         }
         generateTokenAndSetCookie(user._id, res)
@@ -77,11 +81,11 @@ export const login = async (req: Request, res: Response) => {
 
 export const logout = (req: Request, res: Response) => {
     try {
-        res.cookie('jwt', '', { 
+        res.cookie('jwt', '', {
             maxAge: 0,
             httpOnly: true,
             sameSite: 'strict',
-            secure: process.env.NODE_ENV !== 'development', 
+            secure: process.env.NODE_ENV !== 'development',
         })
         res.status(200).json({ message: '✔️ Logged out successfully' })
     } catch (error) {
@@ -100,9 +104,9 @@ export const updateProfile = async (req: any, res: Response) => {
             return
         }
 
-        const uploadResponse = await cloudinary.uploader.upload(profilePicture) 
+        const uploadResponse = await cloudinary.uploader.upload(profilePicture)
 
-        const updatedUser = await User.findByIdAndUpdate(userId, { profilePicture: uploadResponse.secure_url }, { new: true }) 
+        const updatedUser = await User.findByIdAndUpdate(userId, { profilePicture: uploadResponse.secure_url }, { new: true })
 
         res.status(200).json({ message: '✔️ Successfully updated user.', updatedUser })
     } catch (error) {
