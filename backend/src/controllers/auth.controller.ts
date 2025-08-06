@@ -50,7 +50,7 @@ export const signup = async (req: Request, res: Response) => {
         }
     } catch (error) {
         console.log('💢 Error in Signup controller:', error)
-        res.status(500).json({ error: 'Something is broken on our end.' })
+        res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
 
@@ -75,7 +75,7 @@ export const login = async (req: Request, res: Response) => {
         })
     } catch (error) {
         console.log('💢 Error in Login controller:', error)
-        res.status(500).json({ error: 'Something is broken on our end.' })
+        res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
 
@@ -90,7 +90,7 @@ export const logout = (req: Request, res: Response) => {
         res.status(200).json({ message: '✔️ Logged out successfully' })
     } catch (error) {
         console.log('💢 Error in Logout controller.')
-        res.status(500).json({ error: '💢 Something is broken on our end.' })
+        res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
 
@@ -111,7 +111,7 @@ export const updateProfile = async (req: any, res: Response) => {
         res.status(200).json({ message: '✔️ Successfully updated user.', updatedUser })
     } catch (error) {
         console.log('💢 Error in updateProfile controller.')
-        res.status(500).json({ error: '💢 Something is broken on our end.' })
+        res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
 
@@ -120,6 +120,6 @@ export const checkAuth = async (req: any, res: Response) => {
         res.status(200).json(req.user)
     } catch (error) {
         console.log('💢 Error in checkAuth controller.')
-        res.status(500).json({ message: '💢 Something is broken on our end.' })
+        res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
