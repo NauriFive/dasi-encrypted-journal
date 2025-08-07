@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
         } catch (error: any) {
             const message = error.response?.data?.message || 'Error signing up.'
             toast.error(message)
-            console.log('💀 ERROR:', message)
+            console.log('💀 ERROR IN SIGNUP:', message)
         } finally {
             set({ isSigningUp: false })
         }
@@ -57,7 +57,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
         } catch (error: any) {
             const message = error.response?.data?.message || 'Error logging in.'
             toast.error(message)
-            console.log('💀 ERROR:', message)
+            console.log('💀 ERROR IN LOGIN:', message)
         } finally {
             set({ isLoggingIn: false })
         }
