@@ -19,7 +19,7 @@ export const signup = async (req: Request, res: Response) => {
         const user = await User.findOne({ email })
 
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            res.status(400).json({message: 'Invalid email.'})
+            res.status(400).json({ message: 'Invalid email.' })
             return
         }
         if (user) {
@@ -41,9 +41,6 @@ export const signup = async (req: Request, res: Response) => {
             await newUser.save()
             res.status(201).json({
                 message: 'Account created successfully!',
-                username: newUser.username,
-                email: newUser.email,
-                profilePicture: newUser.profilePicture,
             })
         } else {
             res.status(400).json({ message: 'Invalid user data.' })
@@ -65,13 +62,14 @@ export const login = async (req: Request, res: Response) => {
             res.status(400).json({ message: 'Incorrect email or password.' })
             return
         }
+
         generateTokenAndSetCookie(user._id, res)
 
         res.status(200).json({
             message: 'Logged in successfully.',
             username: user.username,
             email: user.email,
-            profilePicture: user.profilePicture,
+            profilePicture: user.avatar,
         })
     } catch (error) {
         console.log('💢 Error in Login controller:', error)
@@ -87,30 +85,30 @@ export const logout = (req: Request, res: Response) => {
             sameSite: 'strict',
             secure: process.env.NODE_ENV !== 'development',
         })
-        res.status(200).json({ message: '✔️ Logged out successfully' })
+        res.status(200).json({ message: 'Logged out successfully' })
     } catch (error) {
         console.log('💢 Error in Logout controller.')
         res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
 
-export const updateProfile = async (req: any, res: Response) => {
+export const updateAvatar = async (req: any, res: Response) => {
     try {
-        const { profilePicture } = req.body
+        const { newAvatar: newAvatar } = req.body
         const userId = req.user._id
 
-        if (!profilePicture) {
-            res.status(400).json({ message: '❌ Profile picture is required' })
+        if (!newAvatar) {
+            res.status(400).json({ message: 'Avatar is required' })
             return
         }
 
-        const uploadResponse = await cloudinary.uploader.upload(profilePicture)
+        const uploadResponse = await cloudinary.uploader.upload(newAvatar)
 
-        const updatedUser = await User.findByIdAndUpdate(userId, { profilePicture: uploadResponse.secure_url }, { new: true })
+        await User.findByIdAndUpdate(userId, { avatar: uploadResponse.secure_url })
 
-        res.status(200).json({ message: '✔️ Successfully updated user.', updatedUser })
+        res.status(200).json({ message: 'Updated avatar successfully.' })
     } catch (error) {
-        console.log('💢 Error in updateProfile controller.')
+        console.log('💀 ERROR IN updateAvatar controller')
         res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
