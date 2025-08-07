@@ -6,7 +6,8 @@ export const useAuthStore = create<AuthStore>()((set) => ({
     authUser: null,
     isSigningUp: false,
     isLoggingIn: false,
-    isUpdatingProfile: false,
+    isUpdatingAvatar: false,
+    isUpdatingUsername: false,
     isCheckingAuth: true,
 
     checkAuth: async () => {
@@ -34,9 +35,8 @@ export const useAuthStore = create<AuthStore>()((set) => ({
             })
             toast.success(res.data.message)
         } catch (error: any) {
-            const message = error.response?.data?.message || 'Error signing up.'
-            toast.error(message)
-            console.log('💀 ERROR IN SIGNUP:', message)
+            toast.error(error.response.data.message || 'Error signing up.')
+            console.log('💀 ERROR IN SIGNUP:', error.response.data.message)
         } finally {
             set({ isSigningUp: false })
         }
@@ -55,9 +55,8 @@ export const useAuthStore = create<AuthStore>()((set) => ({
             })
             toast.success('Logged in successfully!')
         } catch (error: any) {
-            const message = error.response?.data?.message || 'Error logging in.'
-            toast.error(message)
-            console.log('💀 ERROR IN LOGIN:', message)
+            toast.error(error.response.data.message || 'Error logging in')
+            console.log('💀 ERROR IN LOGIN:', error.response.data.message)
         } finally {
             set({ isLoggingIn: false })
         }
@@ -68,24 +67,54 @@ export const useAuthStore = create<AuthStore>()((set) => ({
             await axiosInstance.get('/auth/logout')
             set({ authUser: null })
             toast.success('Logged out successfully!')
-        } catch (error) {
-            toast.error('Error logging out!')
+        } catch (error: any) {
+            toast.error(error.response.data.message || 'Error logging out.')
+            console.log('💀 ERROR IN logout:', error.response.data.message)
+        }
+    },
+
+    updateAvatar: async (newAvatar: { newAvatar: string }) => {
+        set({ isUpdatingAvatar: true })
+        try {
+            const res = await axiosInstance.put('/auth/update-avatar', newAvatar, { withCredentials: true })
+            toast.success(res.data.message || 'Updated avatar successfully.')
+        } catch (error: any) {
+            toast.error(error.response.data.message || 'Error updating avatar')
+            console.log('💀 ERROR IN updateAvatar:', error.response.data.message)
+        } finally {
+            set({ isUpdatingAvatar: false })
+        }
+    },
+
+    updateUsername: async (newUsername: { newUsername: string }) => {
+        set({isUpdatingUsername: true})
+        try {
+            const res = await axiosInstance.put('/auth/update-username', newUsername, {withCredentials: true})
+            toast.success(res.data.message || 'Updated username successfully.')
+        } catch (error: any) {
+            toast.error(error.response.data.message || 'Error updating username')
+            console.log('💀 ERROR IN updateUsername:', error.response.data.message)
+        } finally {
+            set({isUpdatingUsername: false})
         }
     },
 }))
 
 interface AuthStore {
     authUser: {
-        username: string,
-        email: string,
-        profilePicture: string,
+        username: string
+        email: string
+        profilePicture: string
     } | null
     isSigningUp: boolean
     isLoggingIn: boolean
-    isUpdatingProfile: boolean
+    isUpdatingAvatar: boolean
+    isUpdatingUsername: boolean
     isCheckingAuth: boolean
     checkAuth: () => Promise<void>
     signup: (signupData: { username: string; email: string; password: string }) => Promise<void>
     login: (loginData: { email: string; password: string }) => Promise<void>
     logout: () => Promise<void>
+    updateAvatar: (newAvatar: { newAvatar: string }) => Promise<void>
+    updateUsername: (newUsername: { newUsername: string }) => Promise<void>
 }
