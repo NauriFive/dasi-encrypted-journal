@@ -21,6 +21,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ initialUsername = 'BruceWayne
     }
 
     const handleUsernameSave = async () => {
+        console.log('User name saving clicked')
         setIsUpdating(true)
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 500))
@@ -57,7 +58,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ initialUsername = 'BruceWayne
                             <div className="size-24 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden border-2 border-base-300 group-hover:border-primary/30 transition-colors">
                                 {avatar ? <img src={avatar} alt="Profile" className="size-full object-cover" /> : <User className="size-12 text-primary/70 stroke-1" />}
                             </div>
-                            <button onClick={handleAvatarUpload} className="absolute -bottom-1 -right-1 size-8 rounded-full bg-primary text-primary-content flex items-center justify-center hover:bg-primary/80 transition-colors shadow-lg">
+                            <button
+                                onClick={handleAvatarUpload}
+                                className="absolute -bottom-1 -right-1 size-8 rounded-full bg-primary text-primary-content flex items-center justify-center hover:bg-primary/80 transition-colors shadow-lg"
+                            >
                                 <Camera className="size-4" />
                             </button>
                         </div>
@@ -85,18 +89,22 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ initialUsername = 'BruceWayne
                                             placeholder="Enter username"
                                             autoFocus
                                         />
-                                        <button onClick={handleUsernameSave} disabled={isUpdating || !tempUsername.trim()} className="btn btn-primary btn-sm px-3">
-                                            {isUpdating ? <div className="size-4 border-2 border-primary-content/30 border-t-primary-content rounded-full animate-spin" /> : <Check className="size-4" />}
+                                        <button onClick={handleUsernameSave} disabled={isUpdating || !tempUsername.trim()} className="btn btn-primary btn-sm px-2 py-4.5">
+                                            {isUpdating ? (
+                                                <div className="size-4 border-2 border-primary-content/30 border-t-primary-content rounded-full animate-spin" />
+                                            ) : (
+                                                <Check className="stroke-1" />
+                                            )}
                                         </button>
-                                        <button onClick={handleUsernameCancel} disabled={isUpdating} className="btn btn-ghost btn-sm px-3">
-                                            <X className="size-4" />
+                                        <button onClick={handleUsernameCancel} disabled={isUpdating} className="btn btn-ghost btn-sm px-2 py-4.5">
+                                            <X className="stroke-1" />
                                         </button>
                                     </div>
                                 ) : (
                                     <div className="flex">
-                                        <input type="text" className="input input-bordered flex-1 pl-10 bg-base-200 cursor-default focus:outline-none focus:border-gray-300" value={username} readOnly />
-                                        <button onClick={handleUsernameEdit} className="btn btn-ghost btn-sm ml-2 px-3">
-                                            <Edit3 className="size-4" />
+                                        <input type="text" className="input input-bordered flex-1 pl-10 cursor-default focus:outline-none focus:border-gray-300" value={username} readOnly />
+                                        <button onClick={handleUsernameEdit} className="btn btn-primary flex items-center btn-sm ml-2 px-2 py-4.5">
+                                            <Edit3 className="stroke-1" />
                                         </button>
                                     </div>
                                 )}
@@ -112,10 +120,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ initialUsername = 'BruceWayne
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center z-10">
                                     <Mail className="size-5 opacity-70" style={{ strokeWidth: 1 }} />
                                 </div>
-                                <input type="email" className="input input-bordered w-full pl-10 bg-base-200 cursor-default focus:outline-none focus:border-gray-300" value={email} readOnly />
+                                <input type="email" className="input input-bordered w-full pl-10 cursor-default focus:outline-none focus:border-gray-300" value={email} readOnly />
                             </div>
                         </div>
-                        
+
                         {/* Additional Actions */}
                         <div className="space-y-4">
                             <button className="btn btn-outline w-full">Change Password</button>
