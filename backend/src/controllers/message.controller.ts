@@ -7,31 +7,31 @@ export const getUsersForSideBar = async (req: any, res: Response) => {
     try {
         const loggedInUserId = req.user._id
 
-        const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select('-password') // ✏️ Find users with ID not equal to that one logged in. And excludes passwords as well.
+        const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select('-password') 
 
-        res.status(200).json(filteredUsers) // ✏️ Respond with the list of users
+        res.status(200).json(filteredUsers) 
     } catch (error) {
         console.log('💢 Error in getUsersForSideBar controller.')
-        res.status(500).json({ error: '💢 Something is broken on our end.' })
+        res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
 
 export const getMessages = async (req: any, res: Response) => {
     try {
-        const { id: chatWithId } = req.params // ✏️ Get the ID of the person we are chatting with from the parameter. (PASSED IN THROUGH PARAMS)
-        const myId = req.user._id // ✏️ Get the ID of OURSELVES (PASSED IN THROUGH MIDDLEWARE)
+        const { id: chatWithId } = req.params 
+        const myId = req.user._id
 
         const messages = await Message.find({
             $or: [
-                { senderId: myId, receiverId: chatWithId }, // ✏️ Get messages of EITHER the PERSON WE ARE CHATTING WITH or OURSELVES
+                { senderId: myId, receiverId: chatWithId }, 
                 { senderId: chatWithId, receiverId: myId },
             ],
         })
 
-        res.status(200).json(messages) // ✏️ Responds with the messages.
+        res.status(200).json(messages) 
     } catch (error) {
         console.log('💢 Error in getMessages controller.')
-        res.status(500).json({ error: '💢 Something is broken on our end.' })
+        res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
 
@@ -61,6 +61,6 @@ export const sendMessage = async (req: any, res: Response) => {
         res.status(201).json(newMessage)
     } catch (error) {
         console.log('💢 Error in sendMessage controller.')
-        res.status(500).json({ error: '💢 Something is broken on our end.' })
+        res.status(500).json({ message: 'Something is broken on our end.' })
     }
 }
