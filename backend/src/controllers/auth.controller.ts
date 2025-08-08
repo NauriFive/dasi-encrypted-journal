@@ -113,6 +113,25 @@ export const updateAvatar = async (req: any, res: Response) => {
     }
 }
 
+export const updateUsername = async (req: any, res: Response) => {
+    try {
+        const { newUsername: newUsername } = req.body
+        const userId = req.user._id
+
+        if (!newUsername) {
+            res.status(400).json({ message: 'Username is required' })
+            return
+        }
+
+        await User.findByIdAndUpdate(userId, { username: newUsername })
+
+        res.status(200).json({ message: 'Updated username successfully.' })
+    } catch (error) {
+        console.log('ERROR IN updateUsername:', error)
+        res.status(500).json({ message: 'Something is broken on our end.' })
+    }
+}
+
 export const checkAuth = async (req: any, res: Response) => {
     try {
         res.status(200).json(req.user)
