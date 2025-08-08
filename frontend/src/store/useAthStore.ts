@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
                 authUser: {
                     username: res.data.username,
                     email: res.data.email,
-                    profilePicture: res.data.profilePicture,
+                    avatar: res.data.avatar,
                 },
             })
             toast.success(res.data.message)
@@ -50,7 +50,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
                 authUser: {
                     username: res.data.username,
                     email: res.data.email,
-                    profilePicture: res.data.profilePicture,
+                    avatar: res.data.avatar,
                 },
             })
             toast.success('Logged in successfully!')
@@ -87,15 +87,18 @@ export const useAuthStore = create<AuthStore>()((set) => ({
     },
 
     updateUsername: async (newUsername: { newUsername: string }) => {
-        set({isUpdatingUsername: true})
+        set({ isUpdatingUsername: true })
         try {
-            const res = await axiosInstance.put('/auth/update-username', newUsername, {withCredentials: true})
+            const res = await axiosInstance.put('/auth/update-username', newUsername, { withCredentials: true })
+            set((state) => ({
+                authUser: state.authUser ? { ...state.authUser, username: res.data.username } : state.authUser,
+            }))
             toast.success(res.data.message || 'Updated username successfully.')
         } catch (error: any) {
             toast.error(error.response.data.message || 'Error updating username')
             console.log('💀 ERROR IN updateUsername:', error.response.data.message)
         } finally {
-            set({isUpdatingUsername: false})
+            set({ isUpdatingUsername: false })
         }
     },
 }))
@@ -104,7 +107,7 @@ interface AuthStore {
     authUser: {
         username: string
         email: string
-        profilePicture: string
+        avatar: string
     } | null
     isSigningUp: boolean
     isLoggingIn: boolean

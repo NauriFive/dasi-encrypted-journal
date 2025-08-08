@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { User, Mail, Edit3, Check, X, Camera } from 'lucide-react'
-// import { useAuthStore } from '../store/useAthStore'
+import { useAuthStore } from '../store/useAthStore'
+import toast from 'react-hot-toast'
 
 interface ProfilePageProps {
     initialUsername?: string
@@ -8,29 +9,39 @@ interface ProfilePageProps {
     initialAvatar?: string
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ initialUsername = 'BruceWayne67', initialEmail = 'batman@super.com', initialAvatar = '' }) => {
-    // const { isUpdatingAvatar, isUpdatingUsername, updateAvatar, updateUsername, authUser } = useAuthStore()
+const ProfilePage: React.FC<ProfilePageProps> = () => {
+    const { authUser, updateUsername, isUpdatingUsername } = useAuthStore()
 
-    const [username, setUsername] = useState(initialUsername)
-    const [email] = useState(initialEmail)
-    const [avatar] = useState(initialAvatar)
+    const [username, setUsername] = useState(authUser?.username) 
+    const [email] = useState(authUser?.email)
+    const [avatar] = useState(authUser?.avatar)
     const [isEditingUsername, setIsEditingUsername] = useState(false)
     const [tempUsername, setTempUsername] = useState(username)
-    const [isUpdating, setIsUpdating] = useState(false)
 
     const handleUsernameEdit = () => {
         setTempUsername(username)
         setIsEditingUsername(true)
     }
 
-    const handleUsernameSave = async () => {
-        console.log('User name saving clicked')
-        setIsUpdating(true)
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 500))
-        setUsername(tempUsername)
-        setIsEditingUsername(false)
-        setIsUpdating(false)
+    const validateUsername = (): boolean => {
+        if (!tempUsername?.trim()) {
+            toast.error('Username is required.')
+            return false
+        }
+        return true
+    }
+
+    const handleUsernameUpdate = async () => {
+        if (!validateUsername()) {
+            return
+        }
+        try {
+            await updateUsername({ newUsername: tempUsername! })
+            setUsername(useAuthStore.getState().authUser?.username)
+            setIsEditingUsername(false)
+        } catch {
+            toast.error('Error updating username.')
+        }
     }
 
     const handleUsernameCancel = () => {
@@ -91,10 +102,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ initialUsername = 'BruceWayne
                                         placeholder="Enter username"
                                         autoFocus
                                     />
-                                    <button onClick={handleUsernameSave} disabled={isUpdating || !tempUsername.trim()} className="btn btn-primary btn-sm px-2 py-4.5">
-                                        {isUpdating ? <div className="px-2.5 py-2.5 w-6 h-6 border-1 border-t-primary-content rounded-full animate-spin" /> : <Check className="stroke-1 size-6" />}
+                                    <button onClick={handleUsernameUpdate} disabled={isUpdatingUsername || !tempUsername!.trim()} className="btn btn-primary btn-sm px-2 py-4.5">
+                                        {isUpdatingUsername ? <div className="px-2.5 py-2.5 w-6 h-6 border-1 border-t-primary-content rounded-full animate-spin" /> : <Check className="stroke-1 size-6" />}
                                     </button>
-                                    <button onClick={handleUsernameCancel} disabled={isUpdating} className="btn btn-ghost btn-sm px-2 py-4.5">
+                                    <button onClick={handleUsernameCancel} disabled={isUpdatingUsername} className="btn btn-ghost btn-sm px-2 py-4.5">
                                         <X className="stroke-1 size-6" />
                                     </button>
                                 </div>
