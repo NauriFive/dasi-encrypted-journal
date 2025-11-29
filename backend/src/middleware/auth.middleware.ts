@@ -6,16 +6,19 @@ export const protectRoute = async (req: any, res: Response, next: NextFunction) 
   try {
     const token = req.cookies.jwt
     if (!token) {
-      return res.status(401).json({ message: 'Unauthorized.' })
+      res.status(401).json({ message: 'Unauthorized.' })
+      return
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET!)
     if (!decodedToken) {
-      return res.status(401).json({ message: 'Unauthorized.' })
+      res.status(401).json({ message: 'Unauthorized.' })
+      return
     }
 
     if (typeof decodedToken !== 'object' || !decodedToken?.userId) {
-      return res.status(401).json({ message: 'Unauthorized: Invalid token payload' })
+      res.status(401).json({ message: 'Unauthorized: Invalid token payload' })
+      return
     }
 
     const user = await User.findById(decodedToken.userId).select('-password')
