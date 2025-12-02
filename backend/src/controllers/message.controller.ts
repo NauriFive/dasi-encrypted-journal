@@ -1,50 +1,52 @@
-import type { Request, Response } from 'express'
-import User from '../models/user.model'
-import Message from '../models/message.model'
-import cloudinary from '../lib/cloudinary'
+import type { Request, Response } from "express";
+import User from "../models/user.model";
+import Message from "../models/message.model";
+import cloudinary from "../lib/cloudinary";
 
 export const getUsersForSideBar = async (req: any, res: Response) => {
   try {
-    const loggedInUserId = req.user._id
+    const loggedInUserId = req.user._id;
 
-    const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select('-password')
+    const filteredUsers = await User.find({
+      _id: { $ne: loggedInUserId },
+    }).select("-password");
 
-    res.status(200).json(filteredUsers)
+    res.status(200).json(filteredUsers);
   } catch (error) {
-    console.log('💢 Error in getUsersForSideBar controller.')
-    res.status(500).json({ message: 'Something is broken on our end.' })
+    console.log("💢 Error in getUsersForSideBar controller.");
+    res.status(500).json({ message: "Something is broken on our end." });
   }
-}
+};
 
 export const getMessages = async (req: any, res: Response) => {
   try {
-    const { id: chatWithId } = req.params
-    const myId = req.user._id
+    const { id: chatWithId } = req.params;
+    const myId = req.user._id;
 
     const messages = await Message.find({
       $or: [
         { senderId: myId, receiverId: chatWithId },
         { senderId: chatWithId, receiverId: myId },
       ],
-    })
+    });
 
-    res.status(200).json(messages)
+    res.status(200).json(messages);
   } catch (error) {
-    console.log('💢 Error in getMessages controller.')
-    res.status(500).json({ message: 'Something is broken on our end.' })
+    console.log("💢 Error in getMessages controller.");
+    res.status(500).json({ message: "Something is broken on our end." });
   }
-}
+};
 
 export const sendMessage = async (req: any, res: Response) => {
   try {
-    const { text, image } = req.body
-    const { id: receiverId } = req.body
-    const senderId = req.user._id
+    const { text, image } = req.body;
+    const { id: receiverId } = req.body;
+    const senderId = req.user._id;
 
-    let imageUrl: string | undefined
+    let imageUrl: string | undefined;
     if (image) {
-      const uploadResponse = await cloudinary.uploader.upload(image)
-      imageUrl = uploadResponse.secure_url
+      const uploadResponse = await cloudinary.uploader.upload(image);
+      imageUrl = uploadResponse.secure_url;
     }
 
     const newMessage = new Message({
@@ -52,15 +54,15 @@ export const sendMessage = async (req: any, res: Response) => {
       receiverId: receiverId,
       text: text,
       image: imageUrl,
-    })
+    });
 
-    await newMessage.save()
+    await newMessage.save();
 
     // ☑️ TODO: realtime functionalities with SocketIO
 
-    res.status(201).json(newMessage)
+    res.status(201).json(newMessage);
   } catch (error) {
-    console.log('💢 Error in sendMessage controller.')
-    res.status(500).json({ message: 'Something is broken on our end.' })
+    console.log("💢 Error in sendMessage controller.");
+    res.status(500).json({ message: "Something is broken on our end." });
   }
-}
+};
