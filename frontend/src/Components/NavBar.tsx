@@ -1,34 +1,34 @@
-import { Link } from 'react-router-dom'
-import { useAuthStore } from '../store/useAthStore'
-import { Power, Rabbit, Settings } from 'lucide-react'
+import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/useAthStore";
+import { Power, Rabbit, Settings } from "lucide-react";
 
 export const NavBar = () => {
-  const { logout, authUser } = useAuthStore()
+  const { logout, authUser } = useAuthStore();
 
   return (
-    <div className='navbar bg-base-100 shadow-sm'>
-      <div className='flex-1'>
-        <Link to='/' className='btn btn-ghost text-xl'>
+    <div className="navbar bg-base-100 shadow-sm">
+      <div className="flex-1">
+        <Link to="/" className="btn btn-ghost text-xl">
           Bubbly
         </Link>
       </div>
-      <div className='flex-none'>
-        <ul className='menu menu-horizontal px-2'>
+      <div className="flex-none">
+        <ul className="menu menu-horizontal px-2">
           <li>
-            <Link to='/settings'>
-              <Settings className='h-7 w-5' />
+            <Link to="/settings">
+              <Settings className="h-7 w-5" />
             </Link>
           </li>
           {authUser && (
             <>
               <li>
-                <Link to='/profile'>
-                  <Rabbit className='h-7 w-5' />
+                <Link to="/profile">
+                  <Rabbit className="h-7 w-5" />
                 </Link>
               </li>
               <li>
                 <button onClick={logout}>
-                  <Power className='h-7 w-5' />
+                  <Power className="h-7 w-5" />
                 </button>
               </li>
             </>
@@ -36,5 +36,5 @@ export const NavBar = () => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
