@@ -68,9 +68,14 @@ export const useAuthStore = create<AuthStore>()(set => ({
       await axiosInstance.get('/auth/logout')
       set({ authUser: null })
       toast.success('Logged out successfully!')
-    } catch (error: any) {
-      toast.error(error.response.data.message || 'Error logging out.')
-      console.log('💀 ERROR IN logout:', error.response.data.message)
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.log('Axios error:', error.response?.data)
+        toast.error(error.response?.data.message || 'Error loging in')
+      } else {
+        console.log('Error: ', error)
+        toast.error('Error loging in')
+      }
     }
   },
 
