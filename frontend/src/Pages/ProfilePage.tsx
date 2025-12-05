@@ -39,7 +39,6 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
       await updateUsername({ newUsername: tempUsername! });
       setUsername(useAuthStore.getState().authUser?.username);
       setIsEditingUsername(false);
-      toast.success("Successfully updated username.")
     } catch {
       toast.error("Error updating username.");
     }
