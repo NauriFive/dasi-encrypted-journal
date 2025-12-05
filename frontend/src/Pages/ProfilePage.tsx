@@ -55,7 +55,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
   };
   
   const underConstruction = () => {
-    toast("Feature under construction.")
+    toast("Feature under construction.");
   }
 
   return (
