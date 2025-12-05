@@ -178,13 +178,13 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
           <div className="space-y-4">
             <button
               className="btn btn-outline w-full"
-              onClick={() => underConstruction()}
+              onClick={underConstruction}
             >
               Change Password
             </button>
             <button
               className="btn btn-error btn-outline w-full"
-              onClick={() => underConstruction()}
+              onClick={underConstruction}
             >
               Delete Account
             </button>
