@@ -92,7 +92,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
 
         {/* Profile Information */}
         <div className="space-y-5">
-          {/* Username Field */}
+          {/* -------------------------- Username -------------------------- */}
           <div className="form-control mb-5">
             <label className="label mb-1">
               <span className="label-text">Username</span>
@@ -153,7 +153,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
             </div>
           </div>
 
-          {/* Email Field */}
+          {/* -------------------------- Email -------------------------- */}
           <div className="form-control mb-5">
             <label className="label mb-1">
               <span className="label-text">Email</span>
@@ -174,7 +174,7 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
             </div>
           </div>
 
-          {/* Additional Actions */}
+          {/* -------------------------- Actions -------------------------- */}
           <div className="space-y-4">
             <button
               className="btn btn-outline w-full"
