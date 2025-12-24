@@ -35,10 +35,6 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const handleUsernameCancel = () => {
-    setIsEditingUsername(false);
-  };
-
   const handleAvatarUpload = () => {
     // Placeholder for avatar upload functionality
     console.log("Avatar upload clicked");
@@ -117,7 +113,7 @@ const ProfilePage: React.FC = () => {
                     )}
                   </button>
                   <button
-                    onClick={handleUsernameCancel}
+                    onClick={() => setIsEditingUsername(false)}
                     disabled={isUpdatingUsername}
                     className="btn btn-ghost btn-sm px-2 py-4.5"
                   >
