@@ -11,8 +11,8 @@ interface ProfilePageProps {
 
 const ProfilePage: React.FC<ProfilePageProps> = () => {
   const { authUser, updateUsername, isUpdatingUsername } = useAuthStore();
-  const [email] = useState(authUser?.email);
-  const [avatar] = useState(authUser?.avatar);
+  const email = authUser?.email;
+  const avatar = authUser?.avatar;
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [tempUsername, setTempUsername] = useState(authUser?.username);
 
