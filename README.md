@@ -50,7 +50,7 @@ npm install
 Create a `.env` file:
 
 ```
-VITE_API_BASE_URL=http://localhost:5050/api
+VITE_API_URL=http://localhost:5050/api
 ```
 
 Start the dev server:
