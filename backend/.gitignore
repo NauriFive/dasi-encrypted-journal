@@ -1,0 +1,10 @@
+# Node
+.env
+node_modules
+dist
+dist-ssr
+*.local
+# Dev tools
+.vscode
+.idea
+.DS_Store
