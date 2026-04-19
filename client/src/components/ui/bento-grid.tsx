@@ -85,24 +85,24 @@ const BentoCard = ({
   <div
     key={name}
     className={cn(
-      "group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-3xl h-72",
-      "bg-card border-2 border-border/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
-      "hover:border-primary/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:-rotate-1",
+      "group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-[2.5rem] h-80",
+      "bg-linear-to-br from-card to-card/95 shadow-2xl border-none",
+      "hover:shadow-3xl hover:-rotate-1",
       "transition-all duration-500",
       className
     )}
   >
-    <div className="pointer-events-none z-10 flex flex-col gap-2 p-8 transition-all duration-300 group-hover:-translate-y-2">
+    <div className="pointer-events-none z-10 flex flex-col gap-2 p-10 transition-all duration-300 group-hover:-translate-y-2">
       <div className="bg-primary/10 w-fit p-4 rounded-2xl transition-colors duration-300 group-hover:bg-primary/20">
         <Icon className="h-10 w-10 text-primary transition-all duration-300 ease-in-out" />
       </div>
       <h3 className="text-3xl font-heading text-foreground mt-4">{name}</h3>
-      <p className="max-w-lg text-muted-foreground leading-relaxed font-heading italic text-lg opacity-80">{description}</p>
+      <p className="max-w-lg text-muted-foreground leading-relaxed font-heading text-lg opacity-80">{description}</p>
     </div>
 
     <div
       className={cn(
-        "absolute bottom-0 flex w-full translate-y-10 flex-row items-center p-8 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
+        "absolute bottom-0 flex w-full translate-y-10 flex-row items-center p-10 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
       )}
     >
       <a

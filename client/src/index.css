@@ -42,7 +42,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-heading: 'DM Serif Display', serif;
+  --font-heading: 'Fredoka', sans-serif;
 }
 
 :root {
@@ -109,7 +109,7 @@
 
   body {
     @apply bg-background text-foreground min-h-screen;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito', sans-serif;
     background-image: radial-gradient(oklch(0.25 0.02 40 / 0.08) 1px, transparent 1px);
     background-size: 32px 32px;
   }

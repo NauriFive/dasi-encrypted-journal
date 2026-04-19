@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldGroup,
-  FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -101,7 +100,6 @@ export const SignInForm = ({
                 required
                 className="rounded-2xl bg-white border-2 border-primary/20 focus:border-primary/50 transition-all h-14 text-lg font-heading italic shadow-[4px_4px_0px_0px_rgba(0,0,0,0.05)]"
               />
-              <div className="absolute -top-3 -right-2 bg-yellow-400 text-[10px] font-bold px-2 py-0.5 rounded-full rotate-12 shadow-sm text-yellow-900">NEW</div>
             </div>
           ) : (
             <>
@@ -141,7 +139,7 @@ export const SignInForm = ({
 
         <Field>
           <Button type="submit" disabled={loading} className="w-full h-14 rounded-2xl text-xl font-heading shadow-[0_8px_0px_0px_oklch(0.5_0.15_35)] hover:shadow-[0_4px_0px_0px_oklch(0.5_0.15_35)] hover:translate-y-[4px] active:shadow-none active:translate-y-[8px] transition-all bg-primary text-white border-2 border-black/10">
-            {loading ? <Loader2 className="animate-spin" /> : step === "email" ? "Open My Journal 📖" : "Sign Me In! ✨"}
+            {loading ? <Loader2 className="animate-spin" /> : step === "email" ? "Open My Journal" : "Sign Me In!"}
           </Button>
         </Field>
 
