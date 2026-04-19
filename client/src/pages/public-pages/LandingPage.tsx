@@ -4,6 +4,7 @@ import { SignInForm } from "@/components/signin/SignInForm";
 import { Card } from "@/components/ui/card";
 import NavBar from "@/components/landing-page/NavBar";
 import Footer from "@/components/landing-page/Footer";
+import { cn } from "@/lib/utils";
 
 const EntryCard = ({ 
   text, 
@@ -33,12 +34,60 @@ const EntryCard = ({
   </motion.div>
 );
 
+const MARKER_PATHS = [
+  "M 5 60 C 20 40, 40 70, 55 50 C 70 30, 85 65, 95 45",
+  "M 5 45 C 18 65, 35 30, 50 55 C 65 75, 80 35, 95 55",
+  "M 5 55 L 25 35 L 45 65 L 65 35 L 85 60 L 95 45",
+  "M 5 50 L 22 30 L 40 68 L 58 28 L 76 65 L 95 40",
+  "M 5 62 C 15 42, 28 72, 42 48 C 56 28, 68 68, 80 44 C 88 30, 93 50, 95 42",
+  "M 5 50 L 20 70 L 38 32 L 55 65 L 72 30 L 88 58 L 95 45",
+  "M 5 40 C 22 70, 38 28, 55 60 C 68 82, 80 38, 95 55",
+];
+
+const MarkerStroke = ({ className, stroke, duration = 12, delay = 0, variant = 0 }: { className?: string, stroke: string, duration?: number, delay?: number, variant?: number }) => (
+  <motion.svg
+    viewBox="0 0 100 100"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn("absolute pointer-events-none", className)}
+    animate={{ rotate: [0, 3, -3, 0], y: [0, 6, -6, 0] }}
+    transition={{ duration, repeat: Infinity, delay, ease: "easeInOut" }}
+  >
+    <path
+      d={MARKER_PATHS[variant % MARKER_PATHS.length]}
+      strokeWidth="12"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ stroke }}
+    />
+  </motion.svg>
+);
+
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <NavBar />
       
       <main className="relative flex flex-col items-center pt-24 pb-32 px-6">
+        
+        {/* Marker strokes overlay — sits above content but non-interactive */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 20 }}>
+          <MarkerStroke className="top-[2%] left-[1%] w-[480px] h-40" stroke="rgba(250,204,21,0.85)" duration={11} delay={0} variant={0} />
+          <MarkerStroke className="top-[6%] right-[11%] w-[420px] h-36 rotate-[-10deg]" stroke="rgba(251,113,133,0.80)" duration={13} delay={1} variant={1} />
+          <MarkerStroke className="top-[13%] left-[14%] w-[500px] h-44 rotate-[7deg]" stroke="rgba(96,165,250,0.80)" duration={14} delay={0.5} variant={2} />
+          <MarkerStroke className="top-[20%] right-[2%] w-[460px] h-40 rotate-[-8deg]" stroke="rgba(139,92,246,0.85)" duration={12} delay={2} variant={4} />
+          <MarkerStroke className="top-[27%] left-[5%] w-[520px] h-44 rotate-[5deg]" stroke="rgba(52,211,153,0.80)" duration={10} delay={1.5} variant={6} />
+          <MarkerStroke className="top-[34%] right-[13%] w-[480px] h-40 rotate-[-6deg]" stroke="rgba(250,204,21,0.80)" duration={15} delay={3} variant={3} />
+          <MarkerStroke className="top-[41%] left-[0%] w-[500px] h-44 rotate-[9deg]" stroke="rgba(251,113,133,0.85)" duration={11} delay={0.5} variant={0} />
+          <MarkerStroke className="top-[48%] right-[9%] w-[460px] h-40 rotate-[-4deg]" stroke="rgba(96,165,250,0.80)" duration={13} delay={2.5} variant={5} />
+          <MarkerStroke className="top-[55%] left-[16%] w-[520px] h-44 rotate-[6deg]" stroke="rgba(139,92,246,0.85)" duration={12} delay={1} variant={1} />
+          <MarkerStroke className="top-[62%] right-[3%] w-[480px] h-40 rotate-[-9deg]" stroke="rgba(52,211,153,0.80)" duration={14} delay={3.5} variant={4} />
+          <MarkerStroke className="top-[69%] left-[8%] w-[500px] h-44 rotate-[4deg]" stroke="rgba(250,204,21,0.85)" duration={11} delay={2} variant={6} />
+          <MarkerStroke className="top-[76%] right-[14%] w-[460px] h-40 rotate-[-7deg]" stroke="rgba(251,113,133,0.80)" duration={13} delay={0} variant={2} />
+          <MarkerStroke className="top-[83%] left-[2%] w-[520px] h-44 rotate-[8deg]" stroke="rgba(96,165,250,0.85)" duration={10} delay={1.5} variant={0} />
+          <MarkerStroke className="top-[90%] right-[10%] w-[480px] h-40 rotate-[-5deg]" stroke="rgba(139,92,246,0.80)" duration={12} delay={3} variant={5} />
+          <MarkerStroke className="top-[96%] left-[13%] w-[500px] h-44 rotate-[6deg]" stroke="rgba(52,211,153,0.85)" duration={14} delay={2} variant={1} />
+        </div>
         
         {/* Simple Background Decor */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,oklch(0.6_0.18_250/0.03)_0%,transparent_70%)] pointer-events-none -z-10" />
@@ -126,23 +175,23 @@ const LandingPage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { 
-                title: "Open Sourced", 
+              {
+                title: "Open Sourced",
                 desc: "Transparent code you can audit yourself. Check us out on GitHub and contribute to the future of privacy.",
                 link: "https://github.com",
-                icon: <ArrowRight className="-rotate-45" />
+                icon: <ArrowRight className="-rotate-45" size={28} />
               },
-              { 
-                title: "E2E Encrypted", 
+              {
+                title: "E2E Encrypted",
                 desc: "Your data is encrypted before it ever leaves your device. Only you hold the keys to your secret sanctuary.",
                 link: "#",
-                icon: <ShieldCheck />
+                icon: <ShieldCheck size={28} />
               },
-              { 
-                title: "Always Synced", 
+              {
+                title: "Always Synced",
                 desc: "Access your reflections from any device. Securely synced and available whenever inspiration strikes.",
                 link: "#",
-                icon: <Cloud />
+                icon: <Cloud size={28} />
               }
             ].map((resource, i) => (
               <a
@@ -151,7 +200,7 @@ const LandingPage = () => {
                 className="group p-10 rounded-[2.5rem] border-4 border-foreground bg-card shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
               >
                 <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-8 border-2 border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors">
-                   {i === 0 ? <ArrowRight className="-rotate-45" size={28} /> : i === 1 ? <ShieldCheck size={28} /> : <Cloud size={28} />}
+                  {resource.icon}
                 </div>
                 <h3 className="text-3xl font-black mb-4 text-foreground">{resource.title}</h3>
                 <p className="font-medium text-foreground/60 leading-relaxed mb-8 text-lg">

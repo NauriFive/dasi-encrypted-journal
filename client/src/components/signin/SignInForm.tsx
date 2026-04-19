@@ -150,9 +150,9 @@ export const SignInForm = ({
           {loading ? (
             <Loader2 className="animate-spin size-8" />
           ) : step === "email" ? (
-            "Open My Journal 📖"
+            "Open My Journal"
           ) : (
-            "Let's Go! ✨"
+            "Let's Go!"
           )}
         </Button>
 
