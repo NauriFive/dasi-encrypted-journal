@@ -49,6 +49,8 @@ func main() {
 		r.Post("/verify-otp", auth.VerifyOTP)
 		r.Get("/me", auth.Me)
 		r.Post("/logout", auth.Logout)
+		r.Get("/{provider}/start", auth.OAuthStart)
+		r.Get("/{provider}/callback", auth.OAuthCallback)
 	})
 
 	port := os.Getenv("PORT")
