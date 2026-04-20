@@ -29,7 +29,7 @@ type successResponse struct {
 }
 
 type meResponse struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
 	Username string `json:"username"`
 }
 
@@ -41,12 +41,14 @@ type Handler struct {
 func (h *Handler) Me(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("session")
 	if err != nil {
+		log.Printf("Me: missing session cookie: %v", err)
 		util.WriteJSON(w, http.StatusUnauthorized, util.ErrorResponse{Error: "Unauthorized"})
 		return
 	}
 
 	token, err := uuid.Parse(cookie.Value)
 	if err != nil {
+		log.Printf("Me: invalid session cookie value: %v", err)
 		util.WriteJSON(w, http.StatusUnauthorized, util.ErrorResponse{Error: "Unauthorized"})
 		return
 	}
@@ -71,7 +73,7 @@ func (h *Handler) Me(w http.ResponseWriter, r *http.Request) {
 	}
 
 	util.WriteJSON(w, http.StatusOK, meResponse{
-		Email: email,
+		Email:    email,
 		Username: user.Username,
 	})
 }
@@ -88,10 +90,10 @@ func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
 	h.Queries.DeleteSessionByToken(ctx, token)
 
 	http.SetCookie(w, &http.Cookie{
-		Name:     "session",
-		Value:    "",
-		Path:     "/",
-		MaxAge:   -1,
+		Name:   "session",
+		Value:  "",
+		Path:   "/",
+		MaxAge: -1,
 	})
 
 	util.WriteJSON(w, http.StatusOK, successResponse{
@@ -102,11 +104,13 @@ func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) SendOTP(w http.ResponseWriter, r *http.Request) {
 	var req sendOTPRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		log.Printf("SendOTP: failed to decode request: %v", err)
 		util.WriteJSON(w, http.StatusBadRequest, util.ErrorResponse{Error: "Invalid request"})
 		return
 	}
 
 	if !emailRegex.MatchString(req.Email) {
+		log.Printf("SendOTP: invalid email: %s", req.Email)
 		util.WriteJSON(w, http.StatusBadRequest, util.ErrorResponse{Error: "Invalid email"})
 		return
 	}
@@ -118,19 +122,19 @@ func (h *Handler) SendOTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-  expires := pgtype.Timestamptz{
-    Time: time.Now().Add(5 * time.Minute),
-    Valid: true,
-  }
+	expires := pgtype.Timestamptz{
+		Time:  time.Now().Add(5 * time.Minute),
+		Valid: true,
+	}
 
 	if err := h.Queries.CreateOTP(context.Background(), gendb.CreateOTPParams{
-		Email: req.Email,
-		Otp:   otp,
-    ExpiresAt: expires,
+		Email:     req.Email,
+		Otp:       otp,
+		ExpiresAt: expires,
 	}); err != nil {
 		log.Printf("SendOTP: CreateOTP failed: %v", err)
 		util.WriteJSON(w, http.StatusInternalServerError, util.ErrorResponse{Error: "Something went wrong"})
-    return
+		return
 	}
 
 	if err := sendOTP(h.EmailClient, req.Email, otp); err != nil {
@@ -139,6 +143,7 @@ func (h *Handler) SendOTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Printf("SendOTP: OTP sent to %s", req.Email)
 	util.WriteJSON(w, http.StatusOK, successResponse{Message: "OTP sent"})
 }
 
@@ -150,11 +155,13 @@ type verifyOTPRequest struct {
 func (h *Handler) VerifyOTP(w http.ResponseWriter, r *http.Request) {
 	var req verifyOTPRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		log.Printf("VerifyOTP: failed to decode request: %v", err)
 		util.WriteJSON(w, http.StatusBadRequest, util.ErrorResponse{Error: "Invalid request"})
 		return
 	}
 
 	if !emailRegex.MatchString(req.Email) {
+		log.Printf("VerifyOTP: invalid email: %s", req.Email)
 		util.WriteJSON(w, http.StatusBadRequest, util.ErrorResponse{Error: "Invalid email"})
 		return
 	}
@@ -163,6 +170,7 @@ func (h *Handler) VerifyOTP(w http.ResponseWriter, r *http.Request) {
 
 	otpRow, err := h.Queries.GetOTPByEmail(ctx, req.Email)
 	if errors.Is(err, pgx.ErrNoRows) {
+		log.Printf("VerifyOTP: no valid OTP found for %s", req.Email)
 		util.WriteJSON(w, http.StatusUnauthorized, util.ErrorResponse{Error: "Invalid or expired OTP"})
 		return
 	}
@@ -173,6 +181,7 @@ func (h *Handler) VerifyOTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if otpRow.Otp != req.OTP {
+		log.Printf("VerifyOTP: incorrect OTP for %s", req.Email)
 		util.WriteJSON(w, http.StatusUnauthorized, util.ErrorResponse{Error: "Invalid or expired OTP"})
 		return
 	}

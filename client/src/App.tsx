@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import LandingPage from "./pages/public-pages/LandingPage";
 import NotFoundPage from "./pages/public-pages/NotFoundPage";
 import JournalPage from "./pages/app-pages/JournalPage";
-import AuthGuard from "./components/AuthGuard";
+import AuthGuard from "./components/auth/AuthGuard";
 
 const pageVariants = {
   initial: { opacity: 0, y: 8 },
