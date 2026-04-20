@@ -17,6 +17,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/trnahnh/katana-id/internal/db/generated"
 	"golang.org/x/oauth2"
@@ -121,11 +122,20 @@ func (h *Handler) OAuthCallback(w http.ResponseWriter, r *http.Request) {
 
 	user, err := h.Queries.GetUserByEmail(ctx, email)
 	if errors.Is(err, pgx.ErrNoRows) {
-		username := strings.Split(email, "@")[0]
+		localpart := strings.Split(email, "@")[0]
 		user, err = h.Queries.CreateUser(ctx, gendb.CreateUserParams{
-			Username: username,
+			Username: localpart,
 			Email:    email,
 		})
+		if isUniqueViolation(err) {
+			suffix := make([]byte, 2)
+			if _, rerr := rand.Read(suffix); rerr == nil {
+				user, err = h.Queries.CreateUser(ctx, gendb.CreateUserParams{
+					Username: fmt.Sprintf("%s-%x", localpart, suffix),
+					Email:    email,
+				})
+			}
+		}
 	}
 	if err != nil {
 		log.Printf("OAuthCallback: user provisioning failed: %v", err)
@@ -221,6 +231,11 @@ func getJSON(client *http.Client, url string, out any) error {
 		return fmt.Errorf("GET %s: %d %s", url, resp.StatusCode, string(body))
 	}
 	return json.NewDecoder(resp.Body).Decode(out)
+}
+
+func isUniqueViolation(err error) bool {
+	var pgErr *pgconn.PgError
+	return errors.As(err, &pgErr) && pgErr.Code == "23505"
 }
 
 func redirectAuthError(w http.ResponseWriter, r *http.Request, reason string) {
