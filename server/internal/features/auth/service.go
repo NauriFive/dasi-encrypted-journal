@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"fmt"
 	"math/big"
-	"os"
 
 	"github.com/resend/resend-go/v3"
 )
@@ -39,7 +38,7 @@ func sendOTP(client *resend.Client, email string, otp string) error {
 	`, otp)
 
 	_, err := client.Emails.Send(&resend.SendEmailRequest{
-		From:    "noreply@" + os.Getenv("EMAIL_DOMAIN"),
+		From:    "noreply@dasi.ink",
 		To:      []string{email},
 		Subject: "Your verification code",
 		Html:    content,
