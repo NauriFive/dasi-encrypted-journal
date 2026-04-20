@@ -34,3 +34,5 @@ Thumbs.db
 *.out
 vendor/
 tmp/
+
+CLAUDE.MD
