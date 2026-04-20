@@ -57,7 +57,7 @@ export const SignInForm = ({
       setLoading(true);
       try {
         await axiosInstance.post("/auth/verify-otp", { Email: email, OTP: otp });
-        navigate("/");
+        navigate("/journal");
       } catch (err) {
         const msg =
           err instanceof AxiosError
