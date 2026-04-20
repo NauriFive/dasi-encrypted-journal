@@ -12,6 +12,12 @@ func RequireEnvs() {
 		"RESEND_API_KEY",
 		"ALLOWED_ORIGINS",
 		"EMAIL_DOMAIN",
+		"GOOGLE_CLIENT_ID",
+		"GOOGLE_CLIENT_SECRET",
+		"GITHUB_CLIENT_ID",
+		"GITHUB_CLIENT_SECRET",
+		"PUBLIC_API_URL",
+		"FRONTEND_URL",
 	}
 
 	for _, env := range envs {
