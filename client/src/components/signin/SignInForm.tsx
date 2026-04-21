@@ -107,7 +107,7 @@ export const SignInForm = ({
           ) : (
             <div className="flex flex-col items-center gap-6">
               <div className="text-center space-y-1">
-                <p className="font-heading font-bold text-xl">Check your inbox! 📬</p>
+                <p className="font-heading font-bold text-xl">Check your inbox!</p>
                 <p className="text-sm text-muted-foreground italic">We sent a magic code to {email}</p>
               </div>
               

@@ -228,7 +228,7 @@ const LandingPage = () => {
         <div className='absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,oklch(0.6_0.18_250/0.03)_0%,transparent_70%)] pointer-events-none -z-10' />
 
         {/* Headline Section */}
-        <div className='text-center mb-16 max-w-4xl relative'>
+        <div className='text-center mb-4 max-w-4xl relative'>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -239,8 +239,8 @@ const LandingPage = () => {
           </motion.div>
 
           <h1 className='text-6xl md:text-8xl mb-8 leading-[0.95]'>
-            A private space for your{' '}
-            <span className='text-primary italic'>wildest</span> thoughts.
+            A home for your{' '}
+            <span className='text-primary italic'>thoughts</span>.
           </h1>
 
           <p className='text-xl md:text-2xl max-w-2xl mx-auto text-muted-foreground font-medium leading-relaxed'>
@@ -250,7 +250,7 @@ const LandingPage = () => {
         </div>
 
         {/* Hero Stack */}
-        <div className='relative w-full max-w-5xl flex items-center justify-center min-h-[600px] mt-12'>
+        <div className='relative w-full max-w-5xl flex items-center justify-center min-h-[600px]'>
           {/* Background Scraps */}
           <EntryCard
             rotation={-12}
@@ -317,8 +317,7 @@ const LandingPage = () => {
               ) : user ? (
                 <Link
                   to='/journal'
-                  className='w-full flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-xl font-bold border-4 border-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all'
-                >
+                  className='w-full flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-xl font-bold border-4 border-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all'>
                   Go to Journal
                   <ArrowRight size={20} />
                 </Link>
