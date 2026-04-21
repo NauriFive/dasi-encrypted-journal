@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import { Sparkles, ArrowRight, Pen, ShieldCheck, Cloud } from 'lucide-react'
@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card'
 import NavBar from '@/components/landing-page/NavBar'
 import Footer from '@/components/landing-page/Footer'
 import { cn } from '@/lib/utils'
+import { useMe } from '@/hooks/useMe'
 
 const AUTH_ERROR_MESSAGES: Record<string, string> = {
   state: 'Your sign-in link expired. Please try again. ⏳',
@@ -94,6 +95,7 @@ const MarkerStroke = ({
 
 const LandingPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { data: user, isLoading } = useMe()
 
   useEffect(() => {
     const reason = searchParams.get('auth_error')
@@ -299,14 +301,30 @@ const LandingPage = () => {
                   <Sparkles size={32} className='text-white' />
                 </div>
                 <h2 className='text-4xl font-bold mb-3 tracking-tighter'>
-                  Welcome Back
+                  {user ? `Hi, ${user.username}` : 'Welcome Back'}
                 </h2>
                 <p className='text-muted-foreground font-medium italic'>
-                  Open your secret journal...
+                  {user
+                    ? 'Continue writing your thoughts...'
+                    : 'Open your secret journal...'}
                 </p>
               </div>
 
-              <SignInForm />
+              {isLoading ? (
+                <div className='flex justify-center py-8'>
+                  <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-primary'></div>
+                </div>
+              ) : user ? (
+                <Link
+                  to='/journal'
+                  className='w-full flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-xl font-bold border-4 border-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all'
+                >
+                  Go to Journal
+                  <ArrowRight size={20} />
+                </Link>
+              ) : (
+                <SignInForm />
+              )}
             </Card>
           </motion.div>
         </div>
@@ -428,10 +446,25 @@ const LandingPage = () => {
           <h2 className='text-5xl md:text-7xl mb-12 max-w-3xl mx-auto'>
             Ready to start your journey?
           </h2>
-          <button className='bg-primary text-white px-10 py-5 rounded-2xl text-2xl font-black border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all flex items-center gap-3 mx-auto'>
-            Start Writing for Free
-            <ArrowRight size={28} />
-          </button>
+          {user ? (
+            <Link
+              to='/journal'
+              className='bg-primary text-white px-10 py-5 rounded-2xl text-2xl font-black border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all flex items-center gap-3 mx-auto w-fit'
+            >
+              Go to Journal
+              <ArrowRight size={28} />
+            </Link>
+          ) : (
+            <button
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+              className='bg-primary text-white px-10 py-5 rounded-2xl text-2xl font-black border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all flex items-center gap-3 mx-auto'
+            >
+              Start Writing for Free
+              <ArrowRight size={28} />
+            </button>
+          )}
         </section>
       </main>
 

@@ -98,7 +98,7 @@ export const SignInForm = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-16 px-6 rounded-2xl border-4 border-foreground/10 bg-white text-lg font-medium focus:border-primary focus:ring-0 transition-all shadow-[8px_8px_0px_0px_oklch(0.25_0.05_30/0.05)] group-hover:shadow-[12px_12px_0px_0px_oklch(0.25_0.05_30/0.08)]"
+                className="h-16 px-6 rounded-2xl border-4 border-foreground/10 bg-white text-primary text-lg font-medium focus:border-primary focus:ring-0 transition-all shadow-[8px_8px_0px_0px_oklch(0.25_0.05_30/0.05)] group-hover:shadow-[12px_12px_0px_0px_oklch(0.25_0.05_30/0.08)]"
               />
               <div className="absolute -top-3 -right-2 bg-accent text-accent-foreground text-[10px] font-black px-3 py-1 rounded-full border-2 border-foreground rotate-12 shadow-sm">
                 HELLO! 👋

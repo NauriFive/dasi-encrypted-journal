@@ -1,17 +1,17 @@
 import { useState } from "react";
-
-import { Menu, X, Globe } from "lucide-react";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useScrollNavbar } from "@/hooks/useScrollNavbar";
-import { ContactDialog } from "./ContactDialog";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
 import Logo from "../Logo";
 import { Button } from "../ui/button";
+import { useMe } from "@/hooks/useMe";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { showNavbar } = useScrollNavbar();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: user } = useMe();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 p-4 pointer-events-none">
@@ -43,10 +43,16 @@ const NavBar = () => {
         {/* Desktop right section */}
         <div className="flex-1 hidden lg:flex gap-4 justify-end">
             <Button 
-              onClick={() => navigate("/signin")}
+              onClick={() => {
+                if (user) {
+                  navigate("/journal");
+                } else {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
               className="bg-primary text-primary-foreground border-4 border-foreground rounded-2xl px-8 h-14 font-black text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
             >
-              Open Journal 📖
+              {user ? "Go to Journal 🚀" : "Open Journal 📖"}
             </Button>
         </div>
 
@@ -83,10 +89,14 @@ const NavBar = () => {
               className="w-full bg-primary text-primary-foreground border-4 border-foreground rounded-xl h-14 font-black text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
               onClick={() => {
                 setMobileMenuOpen(false);
-                navigate("/signin");
+                if (user) {
+                  navigate("/journal");
+                } else {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
               }}
             >
-              Open Journal 📖
+              {user ? "Go to Journal 🚀" : "Open Journal 📖"}
             </Button>
           </div>
         </motion.div>
