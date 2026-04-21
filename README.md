@@ -1,1 +1,1 @@
-Dasi Journaling
+Dasi Encrypted Journal
