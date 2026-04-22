@@ -35,4 +35,7 @@ Thumbs.db
 vendor/
 tmp/
 
+# Cache Tool
+.codex/
+
 CLAUDE.MD

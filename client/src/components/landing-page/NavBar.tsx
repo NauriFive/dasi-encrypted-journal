@@ -13,6 +13,14 @@ const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: user } = useMe();
 
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    setMobileMenuOpen(false);
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 p-4 pointer-events-none">
       <nav
@@ -35,9 +43,27 @@ const NavBar = () => {
 
         {/* Desktop navigation */}
         <div className="hidden lg:flex gap-4 p-2 bg-card border-4 border-foreground rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <Button variant="ghost" className="font-black text-sm rounded-xl hover:bg-primary/10 text-foreground">Privacy</Button>
-          <Button variant="ghost" className="font-black text-sm rounded-xl hover:bg-secondary/10 text-foreground">Features</Button>
-          <Button variant="ghost" className="font-black text-sm rounded-xl hover:bg-accent/10 text-foreground">About</Button>
+          <Button
+            variant="ghost"
+            className="font-black text-sm rounded-xl hover:bg-primary/10 text-foreground"
+            onClick={() => scrollToSection("features")}
+          >
+            Features
+          </Button>
+          <Button
+            variant="ghost"
+            className="font-black text-sm rounded-xl hover:bg-secondary/10 text-foreground"
+            onClick={() => scrollToSection("sparks")}
+          >
+            Sparks
+          </Button>
+          <Button
+            variant="ghost"
+            className="font-black text-sm rounded-xl hover:bg-accent/10 text-foreground"
+            onClick={() => scrollToSection("contribute")}
+          >
+            Contribute
+          </Button>
         </div>
 
         {/* Desktop right section */}
@@ -81,9 +107,27 @@ const NavBar = () => {
           className="lg:hidden mt-4 p-4 bg-card border-4 border-foreground rounded-[32px] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] pointer-events-auto"
         >
           <div className="flex flex-col gap-2">
-            <Button variant="ghost" className="justify-start font-black rounded-xl text-foreground">Privacy</Button>
-            <Button variant="ghost" className="justify-start font-black rounded-xl text-foreground">Features</Button>
-            <Button variant="ghost" className="justify-start font-black rounded-xl text-foreground">About</Button>
+            <Button
+              variant="ghost"
+              className="justify-start font-black rounded-xl text-foreground"
+              onClick={() => scrollToSection("features")}
+            >
+              Features
+            </Button>
+            <Button
+              variant="ghost"
+              className="justify-start font-black rounded-xl text-foreground"
+              onClick={() => scrollToSection("sparks")}
+            >
+              Sparks
+            </Button>
+            <Button
+              variant="ghost"
+              className="justify-start font-black rounded-xl text-foreground"
+              onClick={() => scrollToSection("contribute")}
+            >
+              Contribute
+            </Button>
             <div className="h-1 bg-foreground/5 my-2 rounded-full" />
             <Button
               className="w-full bg-primary text-primary-foreground border-4 border-foreground rounded-xl h-14 font-black text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
