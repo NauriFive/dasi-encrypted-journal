@@ -3,7 +3,7 @@ import Logo from "../Logo"
 
 const Footer = () => {
     return (
-        <footer className="flex flex-col relative items-center justify-center border-t border-border/40 pt-16 pb-8 md:pb-0 px-6 lg:px-8 w-full max-w mx-auto lg:pt-32 bg-[radial-gradient(35%_180px_at_50%_0%,oklch(45%_0.18_260/0.04),transparent)]">
+        <footer id="contribute" className="flex flex-col relative items-center justify-center border-t border-border/40 pt-16 pb-8 md:pb-0 px-6 lg:px-8 w-full max-w mx-auto lg:pt-32 bg-[radial-gradient(35%_180px_at_50%_0%,oklch(45%_0.18_260/0.04),transparent)] scroll-mt-32">
 
             <div className="absolute top-0 left-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-1.5 bg-primary/20 rounded-full"></div>
 
@@ -30,17 +30,17 @@ const Footer = () => {
                                 </h3>
                                 <ul className="mt-4 text-sm text-muted-foreground">
                                     <li className="mt-2">
-                                        <a href="#" className="hover:text-primary transition-all duration-300">
+                                        <a href="#features" className="hover:text-primary transition-all duration-300">
                                             Features
                                         </a>
                                     </li>
                                     <li className="mt-2">
-                                        <a href="#" className="hover:text-primary transition-all duration-300">
+                                        <a href="#features" className="hover:text-primary transition-all duration-300">
                                             Security
                                         </a>
                                     </li>
                                     <li className="mt-2">
-                                        <a href="#" className="hover:text-primary transition-all duration-300">
+                                        <a href="#features" className="hover:text-primary transition-all duration-300">
                                             Privacy
                                         </a>
                                     </li>

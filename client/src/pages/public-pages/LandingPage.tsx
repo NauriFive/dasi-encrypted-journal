@@ -330,7 +330,7 @@ const LandingPage = () => {
         </div>
 
         {/* Meaningful Resources Section */}
-        <section className='mt-48 w-full max-w-6xl'>
+        <section id='features' className='mt-48 w-full max-w-6xl scroll-mt-32'>
           <div className='flex flex-col md:flex-row justify-between items-end mb-12 gap-6'>
             <div className='max-w-2xl'>
               <span className='text-primary font-black tracking-widest text-sm uppercase'>
@@ -389,7 +389,7 @@ const LandingPage = () => {
         </section>
 
         {/* Interactive Prompts Section */}
-        <section className='mt-60 w-full max-w-5xl text-center'>
+        <section id='sparks' className='mt-60 w-full max-w-5xl text-center scroll-mt-32'>
           <div className='mb-20'>
             <div className='inline-block bg-primary text-white px-6 py-2 rounded-full font-black text-sm border-4 border-foreground mb-8 rotate-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
               FEELING STUCK? 📝
