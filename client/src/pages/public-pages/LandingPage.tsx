@@ -348,10 +348,10 @@ const LandingPage = () => {
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
             {[
               {
-                title: 'Open Sourced',
-                desc: 'Transparent code you can audit yourself. Check us out on GitHub and contribute to the future of privacy.',
-                link: 'https://github.com',
-                icon: <ArrowRight className='-rotate-45' size={28} />,
+                title: 'Integrated sentiment Analysis',
+                desc: 'Real-time sentiment analysis seamlessly integrated into the system to interpret user emotions and support responsive, human-centered interactions.',
+                link: '#',
+                icon: <Sparkles size={28} />,
               },
               {
                 title: 'E2E Encrypted',
@@ -369,7 +369,7 @@ const LandingPage = () => {
               <a
                 key={i}
                 href={resource.link}
-                className='group p-10 rounded-[2.5rem] border-4 border-foreground bg-card shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all'
+                className='group flex flex-col h-full p-10 rounded-[2.5rem] border-4 border-foreground bg-card shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all'
               >
                 <div className='w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-8 border-2 border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors'>
                   {resource.icon}
@@ -380,7 +380,7 @@ const LandingPage = () => {
                 <p className='font-medium text-foreground/60 leading-relaxed mb-8 text-lg'>
                   {resource.desc}
                 </p>
-                <div className='flex items-center gap-2 font-black text-sm text-primary uppercase tracking-widest'>
+                <div className='mt-auto flex items-center gap-2 font-black text-sm text-primary uppercase tracking-widest'>
                   Learn More <ArrowRight size={16} />
                 </div>
               </a>
